@@ -1,0 +1,12 @@
+<table data-dataTable>
+  <thead>
+    <tr>
+      <th *ngFor="let title of header">{{title}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let obj of list">
+      <td *ngFor="let prop of props">{{obj[prop]}}</td>
+    </tr>
+  </tbody>
+</table>

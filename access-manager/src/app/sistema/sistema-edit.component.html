@@ -1,0 +1,55 @@
+<div class="card card-default">
+    <div class="card-header">
+      Sistema
+    </div>
+
+    <div class="card-block">
+      <form class="form-horizontal" novalidate [formGroup]="formSistema">
+        <fieldset>
+          <legend>Informações do sistema</legend>
+
+          <div class="form-group">
+            <label class="col-md-2 control-label" for="nome">Nome</label>
+            <div class="col-md-8">
+              <input type="text" class="form-control" id="nome" formControlName="nome" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-2 control-label" for="descricao">Descrição</label>
+            <div class="col-md-8">
+              <input type="text" class="form-control" id="descricao" formControlName="descricao" />
+            </div>
+          </div>
+
+        </fieldset>
+      </form>
+    </div>
+
+    <div class="card-footer">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-2">
+                <span>
+                    <button class="btn btn-primary"
+                            (click)="salvar()"
+                            type="button"
+                            style="width:80px;margin-right:10px">
+                        Salvar
+                    </button>
+                </span>
+                <span>
+                    <a class="btn btn-secondary" href="#" style="width:80px;margin-right:10px">
+                        Cancel
+                    </a>
+                </span>
+                <span>
+                    <button class="btn btn-danger"
+                            type="button"
+                            style="width:80px;margin-right:10px">
+                        Excluir
+                    </button>
+                </span>       
+            </div>
+        </div>
+    </div>
+</div>
