@@ -4,14 +4,16 @@
     </div>
 
     <div class="card-block">
-      <form class="form-horizontal" novalidate [formGroup]="formSistema">
+      <form class="form-horizontal" novalidate [formGroup]="formGroup">
         <fieldset>
           <legend>Informações do sistema</legend>
-
           <div class="form-group">
             <label class="col-md-2 control-label" for="nome">Nome</label>
             <div class="col-md-8">
               <input type="text" class="form-control" id="nome" formControlName="nome" />
+              <div class="alert alert-danger" *ngIf="displayMessage['nome']">
+                    {{displayMessage['nome']}}
+              </div>
             </div>
           </div>
 
@@ -19,6 +21,9 @@
             <label class="col-md-2 control-label" for="descricao">Descrição</label>
             <div class="col-md-8">
               <input type="text" class="form-control" id="descricao" formControlName="descricao" />
+              <div class="alert alert-danger" *ngIf="displayMessage['descricao']">
+                    {{displayMessage['descricao']}}
+              </div>
             </div>
           </div>
 
@@ -30,7 +35,8 @@
         <div class="row">
             <div class="col-md-6 col-md-offset-2">
                 <span>
-                    <button class="btn btn-primary"
+                    <button [disabled]="!formGroup.valid"
+                            class="btn btn-primary"
                             (click)="salvar()"
                             type="button"
                             style="width:80px;margin-right:10px">
@@ -41,14 +47,7 @@
                     <a [routerLink]="['/sistema']" class="btn btn-secondary" href="#" style="margin-right:10px">
                         Cancelar
                     </a>
-                </span>
-                <span>
-                    <button class="btn btn-danger"
-                            type="button"
-                            style="width:80px;margin-right:10px">
-                        Excluir
-                    </button>
-                </span>       
+                </span>     
             </div>
         </div>
     </div>

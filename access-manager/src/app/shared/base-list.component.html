@@ -20,6 +20,10 @@
           <td *ngFor="let prop of props">{{obj[prop]}}</td>
           <td>
               <a class="btn btn-primary" [routerLink]="[editLink, obj.id]">Editar</a>
+              <button class="btn btn-secondary" (click)="toggleStatus(obj)">
+                  <span *ngIf="obj.ativo">Inativar</span>
+                  <span *ngIf="!obj.ativo">Ativar</span>
+              </button>
           </td>
         </tr>
       </tbody>

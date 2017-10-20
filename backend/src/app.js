@@ -111,9 +111,10 @@ app.put('/api/perfil', jsonParser, function (req, res) {
     sequelize.sync()
         .then(() => Perfil.update({
             nome: perfil.nome,
-            ativo: true
+            ativo: perfil.ativo
         }, { where: {id: perfil.id} }).then(() => {
-            PerfilSistema.destroy({ where: { id: perfil.id } })
+            if (perfil.sistemas) {
+                PerfilSistema.destroy({ where: { id: perfil.id } })
                 .then(() => {
                     for (i = 0; i < perfil.sistemas.length; i++) {
                         var sistema = perfil.sistemas[i];
@@ -125,6 +126,7 @@ app.put('/api/perfil', jsonParser, function (req, res) {
                         }
                     }
                 });
+            }
         }).then(() => res.send()));
 });
 
@@ -169,20 +171,22 @@ app.put('/api/usuario', jsonParser, function (req, res) {
             email: usuario.email,
             cpf: usuario.cpf,
             telefone: usuario.telefone,
-            ativo: true
+            ativo: usuario.ativo
         }, { where: {id: usuario.id} }).then(() => {
-            UsuarioPerfil.destroy({ where: { idUsuario: usuario.id } })
-                    .then(() => {
-                        for (i = 0; i < usuario.perfis.length; i++) {
-                            var perfil = usuario.perfis[i];
-                            if (perfil.permissao) {
-                                UsuarioPerfil.create({
-                                    idUsuario: usuario.id,
-                                    idPerfil: perfil.id
-                                })
+            if (usuario.perfis) {
+                UsuarioPerfil.destroy({ where: { idUsuario: usuario.id } })
+                        .then(() => {
+                            for (i = 0; i < usuario.perfis.length; i++) {
+                                var perfil = usuario.perfis[i];
+                                if (perfil.permissao) {
+                                    UsuarioPerfil.create({
+                                        idUsuario: usuario.id,
+                                        idPerfil: perfil.id
+                                    })
+                                }
                             }
-                        }
-                    })
+                        })
+                }
         }).then(() => res.send()));
 });
 
@@ -256,6 +260,40 @@ app.get("/api/usuario/:id/perfis", function(req, res) {
                                 res.send(permissoes);
                             });
                     });
+});
+
+app.get("/api/dashboard/usuariosporsistema", function(req, res) {
+    var query = `
+SELECT	s.nome sistema,
+        COUNT(DISTINCT up.IdUsuario) qtdUsuarios
+FROM	Sistema s
+        INNER JOIN PerfilSistema ps
+            ON s.Id = ps.IdSistema
+        INNER JOIN UsuarioPerfil up
+            ON ps.IdPerfil = up.IdPerfil
+        INNER JOIN Usuario u
+            ON up.IdUsuario = u.id
+WHERE   u.Ativo = 1
+GROUP BY s.nome`;
+    sequelize.query(query).spread(data => {
+        res.send(data);
+    });
+});
+
+app.get("/api/dashboard/usuariosporperfil", function(req, res) {
+    var query = `
+SELECT	p.nome perfil,
+    COUNT(DISTINCT up.IdUsuario) qtdUsuarios
+FROM	Perfil p
+    INNER JOIN UsuarioPerfil up
+        ON p.id = up.IdPerfil
+    INNER JOIN Usuario u
+        ON up.IdUsuario = u.id
+WHERE   u.Ativo = 1
+GROUP BY p.nome`;
+    sequelize.query(query).spread(data => {
+        res.send(data);
+    });
 });
 
 app.listen(3500, function () {

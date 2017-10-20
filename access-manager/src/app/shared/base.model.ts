@@ -1,3 +1,4 @@
 export interface IBaseModel {
-    modelName(): string
+    id: number,
+    ativo: boolean
 }

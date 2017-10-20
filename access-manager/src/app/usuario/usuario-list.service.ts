@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BaseListComponent } from '../shared/base-list.component';
 import { IUsuario } from './usuario.model';
 import { ActivatedRoute } from '@angular/router';
+import { Http } from '@angular/http';
 
 @Component({
   templateUrl: '../shared/base-list.component.html',
@@ -9,10 +10,10 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class UsuarioListComponent extends BaseListComponent<IUsuario> implements OnInit {
   get header(): string[] {
-    return ['Nome']
+    return ['Nome', 'E-mail', 'CPF', 'Telefone']
   }
   get props(): string[] {
-    return ['nome']
+    return ['nome', 'email', 'cpf', 'telefone']
   }
   get title(): string {
     return 'Usuários cadastrados'
@@ -21,8 +22,8 @@ export class UsuarioListComponent extends BaseListComponent<IUsuario> implements
     return '/usuario/'
   }
 
-  constructor(route: ActivatedRoute) {
-    super(route)
+  constructor(route: ActivatedRoute, http: Http) {
+    super(route, http)
   }
 
   ngOnInit() {

@@ -1,11 +1,10 @@
 import { IPermissao } from '../shared/permissao.model';
+import { IBaseModel } from '../shared/base.model';
 
-export interface IUsuario {
-    id: number
+export interface IUsuario extends IBaseModel {
     nome: string
     email: string
     cpf: string
     telefone: string
-    ativo: boolean
     perfis: IPermissao[]
 }

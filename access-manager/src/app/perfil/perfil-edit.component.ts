@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Http } from '@angular/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IPerfil } from './perfil.model';
@@ -8,20 +8,34 @@ import { IPermissao } from '../shared/permissao.model';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { ISistema } from '../sistema/sistema.model';
+import { BaseEditComponent } from '../shared/base-edit.component';
+import { GenericValidator } from '../shared/generic-validator';
 
 @Component({
   templateUrl: './perfil-edit.component.html',
   styles: []
 })
-export class PerfilEditComponent implements OnInit {
-  formPerfil: FormGroup
+export class PerfilEditComponent extends BaseEditComponent implements OnInit, AfterViewInit {
+  formGroup: FormGroup
   perfil: IPerfil
   sistemas: IPermissao[]
 
-  constructor(private http: Http, private fb: FormBuilder, private router: Router, private route: ActivatedRoute) { }
+  constructor(private http: Http, private fb: FormBuilder, private router: Router, private route: ActivatedRoute) {
+    super()
+    const messages = {
+      nome: {
+        required: 'Nome do perfil obrigatório'
+      }
+    }
+    this.genericValidator = new GenericValidator(messages)
+  }
+
+  ngAfterViewInit() {
+    super.ngAfterViewInit()
+  }
 
   salvar(): void {
-    const p = <IPerfil>Object.assign({}, this.perfil, this.formPerfil.value)
+    const p = <IPerfil>Object.assign({}, this.perfil, this.formGroup.value)
     p.ativo = true
     p.sistemas = this.sistemas
 
@@ -37,9 +51,9 @@ export class PerfilEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.formPerfil = this.fb.group({
+    this.formGroup = this.fb.group({
       id: [0],
-      nome: []
+      nome: ['', Validators.required]
     })
 
     this.route.params.subscribe(params => {
@@ -54,7 +68,7 @@ export class PerfilEditComponent implements OnInit {
         this.http.get(`api/perfil/${id}`)
             .subscribe(s => {
               this.perfil = <IPerfil>s.json()
-              this.formPerfil.patchValue({
+              this.formGroup.patchValue({
                 id: this.perfil.id,
                 nome: this.perfil.nome
               })

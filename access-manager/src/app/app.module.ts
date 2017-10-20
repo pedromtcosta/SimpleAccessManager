@@ -19,6 +19,11 @@ import { PerfilEditComponent } from './perfil/perfil-edit.component';
 import { UsuarioEditComponent } from './usuario/usuario-edit.component';
 import { UsuarioListComponent } from './usuario/usuario-list.service';
 
+import { ChartsModule } from 'ng2-charts';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardResolver } from './dashboard/dashboard-resolver.service';
+import { CpfValidator } from './shared/cpf.validator';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,7 +32,8 @@ import { UsuarioListComponent } from './usuario/usuario-list.service';
     PerfilListComponent,
     PerfilEditComponent,
     UsuarioEditComponent,
-    UsuarioListComponent
+    UsuarioListComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,18 +41,20 @@ import { UsuarioListComponent } from './usuario/usuario-list.service';
     CommonModule,
     ReactiveFormsModule,
     HttpModule,
+    ChartsModule,
     RouterModule.forRoot([
+      { path: 'dashboard', component: DashboardComponent, resolve: { data: DashboardResolver } },
       { path: 'sistema/:id', component: SistemaEditComponent },
       { path: 'sistema', component: SistemaListComponent, resolve: { list: BaseListResolverService } },
       { path: 'perfil/:id', component: PerfilEditComponent },
       { path: 'perfil', component: PerfilListComponent, resolve: { list: BaseListResolverService } },
       { path: 'usuario/:id', component: UsuarioEditComponent },
       { path: 'usuario', component: UsuarioListComponent, resolve: { list: BaseListResolverService } },
-      { path: '', redirectTo: 'welcome', pathMatch: 'full' },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: '**', redirectTo: '' }
     ])
   ],
-  providers: [ BaseListResolverService ],
+  providers: [ BaseListResolverService, DashboardResolver ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

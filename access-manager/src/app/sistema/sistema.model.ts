@@ -1,9 +1,8 @@
 import { IPerfil } from '../perfil/perfil.model'
+import { IBaseModel } from '../shared/base.model';
 
-export interface ISistema {
-    id: number
+export interface ISistema extends IBaseModel {
     nome: string
     descricao: string
-    ativo: boolean
     perfis: IPerfil[]
 }

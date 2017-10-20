@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BaseListComponent } from '../shared/base-list.component';
 import { ISistema } from './sistema.model';
 import { ActivatedRoute } from '@angular/router';
+import { Http } from '@angular/http';
 
 @Component({
   templateUrl: '../shared/base-list.component.html',
@@ -21,8 +22,8 @@ export class SistemaListComponent extends BaseListComponent<ISistema> implements
     return '/sistema/'
   }
 
-  constructor(route: ActivatedRoute) {
-    super(route)
+  constructor(route: ActivatedRoute, http: Http) {
+    super(route, http)
   }
 
   ngOnInit() {

@@ -28,15 +28,11 @@ create table Usuario (
 create table UsuarioPerfil (
 	Id int primary key auto_increment,
 	IdUsuario int,
-    IdPerfil int,
-    
-    constraint UsuarioPerfil_PK primary key(IdUsuario, IdPerfil)
+    IdPerfil int
 );
 
 create table PerfilSistema (
 	Id int primary key auto_increment,
     IdPerfil int,
-    IdSistema int,
-    
-    constraint UsuarioPerfil_PK primary key(IdPerfil, IdSistema)
+    IdSistema int
 );

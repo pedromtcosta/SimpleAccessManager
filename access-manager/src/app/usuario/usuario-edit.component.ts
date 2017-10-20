@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Http } from '@angular/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IUsuario } from './usuario.model';
@@ -9,24 +9,41 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { ISistema } from '../sistema/sistema.model';
 import { IPerfil } from '../perfil/perfil.model';
+import { BaseEditComponent } from '../shared/base-edit.component';
+import { GenericValidator } from '../shared/generic-validator';
+import { CpfValidator } from '../shared/cpf.validator';
 
 @Component({
   templateUrl: './usuario-edit.component.html',
   styles: []
 })
-export class UsuarioEditComponent implements OnInit {
-  formUsuario: FormGroup
+export class UsuarioEditComponent extends BaseEditComponent implements OnInit, AfterViewInit {
+  formGroup: FormGroup
   usuario: IUsuario
   perfis: IPermissao[]
 
-  constructor(private http: Http, private fb: FormBuilder, private router: Router, private route: ActivatedRoute) { }
+  constructor(private http: Http, private fb: FormBuilder, private router: Router, private route: ActivatedRoute) {
+    super()
+    const messages = {
+      nome: {
+        required: 'Nome do usuário obrigatório'
+      },
+      email: {
+        required: 'E-mail do usuário obrigatório',
+        pattern: 'E-mail inválido'
+      },
+      cpf: {
+        required: 'CPF do usuário obrigatório',
+        isCpf: 'CPF inválido'
+      }
+    }
+    this.genericValidator = new GenericValidator(messages)
+  }
 
   salvar(): void {
-    const u = <IUsuario>Object.assign({}, this.usuario, this.formUsuario.value)
+    const u = <IUsuario>Object.assign({}, this.usuario, this.formGroup.value)
     u.ativo = true
     u.perfis = this.perfis
-
-    console.log(u)
 
     if (u.id === 0) {
       this.http.post('api/usuario', u)
@@ -37,12 +54,18 @@ export class UsuarioEditComponent implements OnInit {
     }
   }
 
+  ngAfterViewInit() {
+    super.ngAfterViewInit()
+  }
+
   ngOnInit() {
-    this.formUsuario = this.fb.group({
+    this.formGroup = this.fb.group({
       id: [0],
-      nome: [],
-      email: [],
-      cpf: [],
+      nome: ['', Validators.required],
+      email: ['', Validators.compose([Validators.required, Validators.pattern(
+        /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+      )])],
+      cpf: ['', Validators.compose([Validators.required, CpfValidator.validate])],
       telefone: []
     })
 
@@ -58,7 +81,7 @@ export class UsuarioEditComponent implements OnInit {
         this.http.get(`api/usuario/${id}`)
             .subscribe(s => {
               this.usuario = <IUsuario>s.json()
-              this.formUsuario.patchValue({
+              this.formGroup.patchValue({
                 id: this.usuario.id,
                 nome: this.usuario.nome,
                 email: this.usuario.email,

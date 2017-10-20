@@ -4,7 +4,7 @@
     </div>
 
     <div class="card-block">
-      <form class="form-horizontal" novalidate [formGroup]="formUsuario">
+      <form class="form-horizontal" novalidate [formGroup]="formGroup">
         <fieldset>
           <legend>Informações do usuário</legend>
 
@@ -12,6 +12,9 @@
             <label class="col-md-2 control-label" for="nome">Nome</label>
             <div class="col-md-8">
               <input type="text" class="form-control" id="nome" formControlName="nome" />
+              <div class="alert alert-danger" *ngIf="displayMessage['nome']">
+                    {{displayMessage['nome']}}
+              </div>
             </div>
           </div>
 
@@ -19,6 +22,9 @@
                 <label class="col-md-2 control-label" for="email">E-mail</label>
                 <div class="col-md-8">
                     <input type="text" class="form-control" id="email" formControlName="email" />
+                    <div class="alert alert-danger" *ngIf="displayMessage['email']">
+                        {{displayMessage['email']}}
+                    </div>
                 </div>
             </div>
 
@@ -26,6 +32,9 @@
                 <label class="col-md-2 control-label" for="cpf">CPF</label>
                 <div class="col-md-8">
                     <input type="text" class="form-control" id="cpf" formControlName="cpf" />
+                    <div class="alert alert-danger" *ngIf="displayMessage['cpf']">
+                        {{displayMessage['cpf']}}
+                    </div>
                 </div>
             </div>
 
@@ -58,7 +67,8 @@
         <div class="row">
             <div class="col-md-6 col-md-offset-2">
                 <span>
-                    <button class="btn btn-primary"
+                    <button [disabled]="!formGroup.valid"
+                            class="btn btn-primary"
                             (click)="salvar()"
                             type="button"
                             style="width:80px;margin-right:10px">
@@ -69,14 +79,7 @@
                     <a [routerLink]="['/usuario']" class="btn btn-secondary" href="#" style="margin-right:10px">
                         Cancelar
                     </a>
-                </span>
-                <span>
-                    <button class="btn btn-danger"
-                            type="button"
-                            style="width:80px;margin-right:10px">
-                        Excluir
-                    </button>
-                </span>       
+                </span>     
             </div>
         </div>
     </div>

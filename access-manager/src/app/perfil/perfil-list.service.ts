@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BaseListComponent } from '../shared/base-list.component';
 import { IPerfil } from './perfil.model';
 import { ActivatedRoute } from '@angular/router';
+import { Http } from '@angular/http';
 
 @Component({
   templateUrl: '../shared/base-list.component.html',
@@ -21,8 +22,8 @@ export class PerfilListComponent extends BaseListComponent<IPerfil> implements O
     return '/perfil/'
   }
 
-  constructor(route: ActivatedRoute) {
-    super(route)
+  constructor(route: ActivatedRoute, http: Http) {
+    super(route, http)
   }
 
   ngOnInit() {

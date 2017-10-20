@@ -1,8 +1,7 @@
 import { IPermissao } from '../shared/permissao.model';
+import { IBaseModel } from '../shared/base.model';
 
-export interface IPerfil {
-    id: number
+export interface IPerfil extends IBaseModel {
     nome: string
-    ativo: boolean
     sistemas: IPermissao[]
 }
