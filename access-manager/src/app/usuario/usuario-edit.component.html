@@ -1,0 +1,83 @@
+<div class="card card-default">
+    <div class="card-header">
+      Usuário
+    </div>
+
+    <div class="card-block">
+      <form class="form-horizontal" novalidate [formGroup]="formUsuario">
+        <fieldset>
+          <legend>Informações do usuário</legend>
+
+          <div class="form-group">
+            <label class="col-md-2 control-label" for="nome">Nome</label>
+            <div class="col-md-8">
+              <input type="text" class="form-control" id="nome" formControlName="nome" />
+            </div>
+          </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="email">E-mail</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" id="email" formControlName="email" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="cpf">CPF</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" id="cpf" formControlName="cpf" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="telefone">Telefone</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" id="telefone" formControlName="telefone" />
+                </div>
+            </div>
+
+          <div class="form-group">
+            <label class="col-md-2 control-label" for="descricao">Perfis</label>
+            <div class="col-md-8">
+                <table class="table table-condensed">
+                    <tbody>
+                        <tr *ngFor="let perfil of perfis">
+                            <td>{{perfil.nome}}</td>
+                            <td><input type="checkbox" [checked]="perfil.permissao" (change)="perfil.permissao = !perfil.permissao" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+          </div>
+
+        </fieldset>
+      </form>
+    </div>
+
+    <div class="card-footer">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-2">
+                <span>
+                    <button class="btn btn-primary"
+                            (click)="salvar()"
+                            type="button"
+                            style="width:80px;margin-right:10px">
+                        Salvar
+                    </button>
+                </span>
+                <span>
+                    <a [routerLink]="['/usuario']" class="btn btn-secondary" href="#" style="margin-right:10px">
+                        Cancelar
+                    </a>
+                </span>
+                <span>
+                    <button class="btn btn-danger"
+                            type="button"
+                            style="width:80px;margin-right:10px">
+                        Excluir
+                    </button>
+                </span>       
+            </div>
+        </div>
+    </div>
+</div>

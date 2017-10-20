@@ -1,24 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseListComponent } from '../shared/base-list.component';
-import { ISistema } from './sistema.model';
+import { IUsuario } from './usuario.model';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
   templateUrl: '../shared/base-list.component.html',
   styles: []
 })
-export class SistemaListComponent extends BaseListComponent<ISistema> implements OnInit {
+export class UsuarioListComponent extends BaseListComponent<IUsuario> implements OnInit {
   get header(): string[] {
-    return ['Nome', 'Descrição']
+    return ['Nome']
   }
   get props(): string[] {
-    return ['nome', 'descricao']
+    return ['nome']
   }
   get title(): string {
-    return 'Sistemas cadastrados'
+    return 'Usuários cadastrados'
   }
   get editLink(): string {
-    return '/sistema/'
+    return '/usuario/'
   }
 
   constructor(route: ActivatedRoute) {

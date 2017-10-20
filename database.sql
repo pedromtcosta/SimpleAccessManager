@@ -26,6 +26,7 @@ create table Usuario (
 );
 
 create table UsuarioPerfil (
+	Id int primary key auto_increment,
 	IdUsuario int,
     IdPerfil int,
     
@@ -33,6 +34,7 @@ create table UsuarioPerfil (
 );
 
 create table PerfilSistema (
+	Id int primary key auto_increment,
     IdPerfil int,
     IdSistema int,
     

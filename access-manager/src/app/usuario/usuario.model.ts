@@ -1,4 +1,4 @@
-import { IPerfil } from '../perfil/perfil.model'
+import { IPermissao } from '../shared/permissao.model';
 
 export interface IUsuario {
     id: number
@@ -7,5 +7,5 @@ export interface IUsuario {
     cpf: string
     telefone: string
     ativo: boolean
-    perfis: IPerfil[]
+    perfis: IPermissao[]
 }

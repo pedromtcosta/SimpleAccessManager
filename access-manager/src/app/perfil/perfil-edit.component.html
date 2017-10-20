@@ -1,12 +1,12 @@
 <div class="card card-default">
     <div class="card-header">
-      Sistema
+      Perfil
     </div>
 
     <div class="card-block">
-      <form class="form-horizontal" novalidate [formGroup]="formSistema">
+      <form class="form-horizontal" novalidate [formGroup]="formPerfil">
         <fieldset>
-          <legend>Informações do sistema</legend>
+          <legend>Informações do perfil</legend>
 
           <div class="form-group">
             <label class="col-md-2 control-label" for="nome">Nome</label>
@@ -16,9 +16,16 @@
           </div>
 
           <div class="form-group">
-            <label class="col-md-2 control-label" for="descricao">Descrição</label>
+            <label class="col-md-2 control-label" for="descricao">Sistemas</label>
             <div class="col-md-8">
-              <input type="text" class="form-control" id="descricao" formControlName="descricao" />
+                <table class="table table-condensed">
+                    <tbody>
+                        <tr *ngFor="let sistema of sistemas">
+                            <td>{{sistema.nome}}</td>
+                            <td><input type="checkbox" [checked]="sistema.permissao" (change)="sistema.permissao = !sistema.permissao" /></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
           </div>
 
@@ -38,7 +45,7 @@
                     </button>
                 </span>
                 <span>
-                    <a [routerLink]="['/sistema']" class="btn btn-secondary" href="#" style="margin-right:10px">
+                    <a [routerLink]="['/perfil']" class="btn btn-secondary" href="#" style="margin-right:10px">
                         Cancelar
                     </a>
                 </span>

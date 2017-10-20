@@ -1,8 +1,8 @@
-import { ISistema } from '../sistema/sistema.model'
+import { IPermissao } from '../shared/permissao.model';
 
 export interface IPerfil {
     id: number
     nome: string
     ativo: boolean
-    sistemas: ISistema[]
+    sistemas: IPermissao[]
 }
