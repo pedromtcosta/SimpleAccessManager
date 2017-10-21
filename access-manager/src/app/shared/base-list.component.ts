@@ -15,9 +15,11 @@ export abstract class BaseListComponent<T extends IBaseModel> implements OnInit 
   constructor(protected route: ActivatedRoute, protected http: Http) { }
 
   ngOnInit() {
-    this.route.data.subscribe(data => {
-      this.list = data['list'];
-    })
+    if (this.route && this.route.data) {
+      this.route.data.subscribe(data => {
+        this.list = data['list'];
+      })
+    }
   }
 
   toggleStatus(obj: T) {

@@ -10,6 +10,7 @@ import { ISistema } from './sistema.model';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import { Subject } from 'rxjs/Subject';
+import { Http, HttpModule } from '@angular/http';
 
 describe('SistemaListComponent', () => {
   let component: SistemaListComponent;
@@ -19,8 +20,10 @@ describe('SistemaListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ SistemaListComponent ],
-      providers: [ { provide: ActivatedRoute, useValue: spyRoute } ],
-      imports: [ RouterTestingModule ]
+      providers: [
+        { provide: ActivatedRoute, useValue: spyRoute }
+      ],
+      imports: [ RouterTestingModule, HttpModule ]
     })
     .compileComponents();
   }));
